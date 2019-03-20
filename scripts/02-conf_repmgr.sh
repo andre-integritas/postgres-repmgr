@@ -48,4 +48,6 @@ service_start_command=pg_ctl -D ${PGDATA} start
 service_stop_command=pg_ctl -D ${PGDATA} stop -m fast
 service_restart_command=pg_ctl -D ${PGDATA} restart -m fast
 service_reload_command=pg_ctl -D ${PGDATA} reload
+service_promote_command = '/usr/local/bin/promote.sh'
+
 EOF

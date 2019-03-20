@@ -26,6 +26,16 @@ COPY postgresql.conf /etc/postgresql/
 COPY docker-entrypoint.sh /usr/local/bin/
 COPY scripts/*.sh /docker-entrypoint-initdb.d/
 
+COPY promote.sh /usr/local/bin/promote.sh
+
+COPY id_rsa /var/lib/postgresql/.ssh/id_rsa
+
+RUN chown -R postgres:postgres /var/lib/postgresql/.ssh
+RUN chmod 700 /var/lib/postgresql/.ssh
+RUN chmod 600 /var/lib/postgresql/.ssh/id_rsa
+
+COPY ssh_config /var/lib/postgresql/.ssh/config
+
 VOLUME /home/postgres/
 VOLUME /var/lib/postgresql/data/
 
