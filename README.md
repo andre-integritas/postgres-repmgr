@@ -31,6 +31,8 @@ docker build --tag postgres-repmgr .
 docker build --tag postgres-pgbouncer pgbouncer
 
 ### RUN IT
+export REPMGR_PASSWORD=RANDONSTRING
+
 docker run --name pg-repmgr-1 --network pg_stream -e REPMGR_PASSWORD=$REPMGR_PASSWORD -d postgres-repmgr
 
 sleep 2
