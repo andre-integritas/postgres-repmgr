@@ -18,4 +18,8 @@ sed -i "s#\$BARMAN_USER#$BARMAN_USER#g" /etc/barman/barman.d/pg.conf
 sed -i "s#\$BARMAN_SLOT_NAME#$BARMAN_SLOT_NAME#g" /etc/barman/barman.d/pg.conf
 sed -i "s#\$STREAMING_USER#$STREAMING_USER#g" /etc/barman/barman.d/pg.conf
 
+gosu barman barman -q cron
+
+gosu barman barman switch-xlog --force --archive $PRIMARY_NODE
+
 exec "$@"

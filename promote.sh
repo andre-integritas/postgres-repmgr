@@ -37,3 +37,5 @@ do
 done
 
 rm ${PGBOUNCER_DATABASE_INI_NEW}
+
+# TODO Generate new config file for barman, reconfigure barman, reload barman

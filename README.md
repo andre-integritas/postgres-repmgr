@@ -69,6 +69,7 @@ docker exec -it pg-pgbouncer-1 psql -U postgres -c "select client_addr, state, s
 #### BARMAN
 docker run --name pg-barman-1 --network pg_stream -e BARMAN_PASSWORD=$BARMAN_PASSWORD -e STREAMING_PASSWORD=$STREAMING_PASSWORD -e PRIMARY_NODE=pg-repmgr-1 -d postgres-barman
 
+sleep 60
 docker exec -it pg-barman-1 barman check pg-repmgr-1
 
 ### FORCE FAILOVER

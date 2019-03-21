@@ -7,11 +7,10 @@ RUN apt-get update \
 	&& sed -i 's/\(.*pam_loginuid.so\)/#\1/' /etc/pam.d/cron
 
 ENV \
-	BARMAN_VERSION=2.1 \
 	BARMAN_DATA_DIR=/var/lib/barman \
 	BARMAN_LOG_DIR=/var/log/barman
 
-RUN pip3 install barman==${BARMAN_VERSION} requests==2.13.0
+RUN pip3 install barman requests psycopg2-binary
 
 RUN useradd --system --shell /bin/bash barman
 RUN install -d -m 0700 -o barman -g barman /home/barman/.ssh
@@ -19,7 +18,8 @@ RUN install -d -m 0700 -o barman -g barman /home/barman/.ssh
 COPY barman.pem /home/barman/.ssh/id_rsa
 RUN chmod 600 /home/barman/.ssh/id_rsa
 RUN chown barman:barman /home/barman/.ssh/id_rsa
-RUN gosu barman bash -c 'echo -e "Host *\n\tCheckHostIP no" > ~/.ssh/config'
+COPY ssh_config /home/barman/.ssh/config
+RUN chown -R barman:barman /home/barman/.ssh
 
 ENV \
 	BARMAN_USER=barman \
