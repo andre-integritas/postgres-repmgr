@@ -37,7 +37,7 @@ sleep 2
 docker run --name pg-repmgr-3 --network pg_stream -e REPMGR_PASSWORD=$REPMGR_PASSWORD -e PRIMARY_NODE=pg-repmgr-1 -d postgres-repmgr
 sleep 8
 docker exec -it pg-repmgr-2 su -c "repmgr cluster show" - postgres
-
+sleep 3
 
 docker run --name pg-pgbouncer-1 --network pg_stream -e PRIMARY_NODE=pg-repmgr-1 -d postgres-pgbouncer
 sleep 1
@@ -60,6 +60,9 @@ sleep 10
 docker exec -it -u postgres pg-repmgr-1 bash -c 'repmgr node service --action=stop --checkpoint'
 docker exec -it -u postgres pg-repmgr-1 bash -c 'cp -f /etc/postgresql/postgresql.conf /var/lib/postgresql/data/postgresql.conf'
 docker exec -it -u postgres pg-repmgr-1 bash -c 'repmgr -h pg-repmgr-2 -d repmgr node rejoin'
+
+docker exec -it pg-pgbouncer-1 psql -U postgres -c "select client_addr, state, sent_lsn, write_lsn, flush_lsn, replay_lsn from pg_stat_replication;"
+
 
 ### TEAR DOWN
 docker kill pg-repmgr-1

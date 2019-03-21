@@ -16,7 +16,7 @@ RUN chown postgres:postgres /etc/pgbouncer /etc/pgbouncer/pgbouncer.database.ini
 
 ENV PRIMARY_NODE=localhost
 
-COPY id_rsa.pub /var/lib/postgresql/.ssh/authorized_keys
+COPY pgbouncer.pub /var/lib/postgresql/.ssh/authorized_keys
 
 RUN chown -R postgres:postgres /var/lib/postgresql/.ssh
 RUN chmod 700 /var/lib/postgresql/.ssh
