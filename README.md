@@ -69,8 +69,32 @@ docker exec -it pg-pgbouncer-1 psql -U postgres -c "select client_addr, state, s
 #### BARMAN
 docker run --name pg-barman-1 --network pg_stream -e BARMAN_PASSWORD=$BARMAN_PASSWORD -e STREAMING_PASSWORD=$STREAMING_PASSWORD -e PRIMARY_NODE=pg-repmgr-1 -d postgres-barman
 
-sleep 60
+sleep 30
+
+docker exec -it pg-barman-1 barman backup all
+
+docker exec -it pg-barman-1 barman cron
+
 docker exec -it pg-barman-1 barman check pg-repmgr-1
+`Server pg-repmgr-1:
+	PostgreSQL: OK
+	is_superuser: OK
+	PostgreSQL streaming: OK
+	wal_level: OK
+	replication slot: OK
+	directories: OK
+	retention policy settings: OK
+	backup maximum age: OK (interval provided: 7 days, latest backup age: 2 minutes, 21 seconds)
+	compression settings: OK
+	failed backups: OK (there are 0 failed backups)
+	minimum redundancy requirements: OK (have 1 backups, expected at least 1)
+	ssh: OK (PostgreSQL server)
+	not in recovery: OK
+	pg_receivexlog: OK
+	pg_receivexlog compatible: OK
+	receive-wal running: OK
+	archiver errors: OK`
+
 
 ### FORCE FAILOVER
 [ monitor from another shell ] docker logs -f pg-repmgr-2
