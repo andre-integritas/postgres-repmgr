@@ -14,7 +14,7 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 RUN chown postgres:postgres /etc/pgbouncer /etc/pgbouncer/pgbouncer.database.ini
 
-ENV PRIMARY_NODE=localhost
+ENV PRIMARY_NODE=
 
 COPY pgbouncer.pub /var/lib/postgresql/.ssh/authorized_keys
 

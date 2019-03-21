@@ -43,7 +43,9 @@ if [ "$1" = 'postgres' ] && [ "$(id -u)" = '0' ]; then
 		chown -R postgres "$POSTGRES_INITDB_WALDIR"
 		chmod 700 "$POSTGRES_INITDB_WALDIR"
 	fi
-
+	
+	/etc/init.d/ssh start
+	
 	exec gosu postgres "$BASH_SOURCE" "$@"
 fi
 
@@ -143,8 +145,7 @@ if [ "$1" = 'postgres' ]; then
 fi
 
 if [ "$1" = postgres ]; then
-	echo "~~ starting PostgreSQL+repmgr..." >&2
-	# TODO maybe we should use pg_ctl here (this way the user can pass commandline arguments to postgres though)
+	echo "~~ starting postgres+repmgr..." >&2
 	"$@" &
 	sleep 5
 	repmgrd --verbose --daemonize=false

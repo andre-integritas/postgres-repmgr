@@ -1,0 +1,2 @@
+* * * * * barman /usr/local/bin/barman -q cron
+@daily root /usr/sbin/logrotate /etc/logrotate.conf
