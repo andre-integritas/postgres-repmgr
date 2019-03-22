@@ -1,5 +1,8 @@
 
 Host *
-LogLevel=ERROR
-StrictHostKeyChecking no
-UserKnownHostsFile /dev/null
+	LogLevel=ERROR
+	StrictHostKeyChecking no
+	UserKnownHostsFile /dev/null
+
+Host pg-barman-1
+	User barman

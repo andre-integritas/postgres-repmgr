@@ -15,10 +15,12 @@ ENV PRIMARY_NODE=localhost
 ENV REPMGR_USER=repmgr
 ENV REPMGR_DB=repmgr
  
-RUN apt-get update; apt-get install -y git make postgresql-server-dev-10 libpq-dev postgresql-10-repmgr repmgr-common openssh-server
+RUN apt-get update; apt-get install -y git make postgresql-server-dev-10 libpq-dev postgresql-10-repmgr repmgr-common openssh-server python3-pip
 
 RUN git clone https://github.com/mreithub/pg_recall.git /root/pg_recall/
 RUN cd /root/pg_recall/; make install
+
+RUN pip3 install barman-cli
 
 RUN mkdir -p /home/postgres/; chown postgres:postgres /home/postgres/
 

@@ -33,6 +33,10 @@ node_name=$(hostname -s | sed 's/\W\{1,\}/_/g;')
 conninfo=host='$NODE_HOST' user='$REPMGR_USER' dbname='$REPMGR_DB' connect_timeout=5
 data_directory=${PGDATA}
 
+barman_host=${BARMAN_NODE:-pg-barman-1}
+barman_server=${PRIMARY_NODE}
+restore_command=/usr/local/bin/barman-wal-restore ${BARMAN_NODE:-pg-barman-1} ${PRIMARY_NODE} %f %p
+
 log_level=INFO
 log_facility=STDERR
 log_status_interval=300

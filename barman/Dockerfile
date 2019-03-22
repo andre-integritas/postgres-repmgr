@@ -1,7 +1,7 @@
 FROM postgres:10
 
 RUN apt-get update \
-	&& apt-get install -y --no-install-recommends wget cron gcc libpq-dev libpython-dev logrotate openssh-client rsync python3-pip \
+	&& apt-get install -y --no-install-recommends wget cron gcc libpq-dev libpython-dev logrotate openssh-client rsync python3-pip openssh-server \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& rm -f /etc/crontab /etc/cron.*/* \
 	&& sed -i 's/\(.*pam_loginuid.so\)/#\1/' /etc/pam.d/cron
@@ -17,8 +17,10 @@ RUN install -d -m 0700 -o barman -g barman /home/barman/.ssh
 
 COPY barman.pem /home/barman/.ssh/id_rsa
 RUN chmod 600 /home/barman/.ssh/id_rsa
-RUN chown barman:barman /home/barman/.ssh/id_rsa
+
 COPY ssh_config /home/barman/.ssh/config
+COPY pgbouncer.pub /home/barman/.ssh/authorized_keys
+
 RUN chown -R barman:barman /home/barman/.ssh
 
 ENV \
