@@ -37,11 +37,14 @@ docker build --tag postgres-pgbouncer pgbouncer
 docker build --tag postgres-barman barman
 
 ### SETUP LOCAL ENV
-export REPMGR_PASSWORD=`nicepass --password-length 24`
+export REPMGR_PASSWORD=`head /dev/urandom | tr -dc A-Za-z0-9 | head -c 24 ; echo ''`
 
-export BARMAN_PASSWORD=`nicepass --password-length 24`
+export BARMAN_PASSWORD=`head /dev/urandom | tr -dc A-Za-z0-9 | head -c 24 ; echo ''`
 
-export STREAMING_PASSWORD=`nicepass --password-length 24`
+export STREAMING_PASSWORD=`head /dev/urandom | tr -dc A-Za-z0-9 | head -c 24 ; echo ''`
+
+### CREATE NETWORK
+docker network create pg_stream
 
 ### RUN PRIMARY
 docker run --name pg-repmgr-1 --hostname pg-repmgr-1 --network pg_stream -e REPMGR_PASSWORD=$REPMGR_PASSWORD -e BARMAN_PASSWORD=$BARMAN_PASSWORD -e STREAMING_PASSWORD=$STREAMING_PASSWORD -d postgres-repmgr
