@@ -1,2 +1,3 @@
 * * * * * barman /usr/local/bin/barman -q cron
+0 * * * * barman /usr/local/bin/barman backup all
 @daily root /usr/sbin/logrotate /etc/logrotate.conf
